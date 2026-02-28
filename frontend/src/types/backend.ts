@@ -18,5 +18,5 @@ export type GenerateQuestionRequest = {
 
 export type GenerateQuestionResponse = {
   question: GeneratedQuestion
-  stored: Record<string, unknown>
+  stored: Record<string, unknown> | null
 }

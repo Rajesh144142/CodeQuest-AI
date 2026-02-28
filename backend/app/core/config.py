@@ -14,6 +14,8 @@ class Settings(BaseSettings):
     supabase_url: str = Field(default="", alias="SUPABASE_URL")
     supabase_service_role_key: str = Field(default="", alias="SUPABASE_SERVICE_ROLE_KEY")
     supabase_question_table: str = Field(default="generated_questions", alias="SUPABASE_QUESTION_TABLE")
+    supabase_user_table: str = Field(default="app_users", alias="SUPABASE_USER_TABLE")
+    supabase_rate_limit_table: str = Field(default="api_daily_usage", alias="SUPABASE_RATE_LIMIT_TABLE")
 
     openrouter_api_key: str = Field(default="", alias="OPENROUTER_API_KEY")
     openrouter_model: str = Field(default="openai/gpt-4o-mini", alias="OPENROUTER_MODEL")
@@ -22,6 +24,12 @@ class Settings(BaseSettings):
         alias="OPENROUTER_CHAT_MODEL",
     )
     openrouter_referer: str = Field(default="http://localhost:5173", alias="OPENROUTER_REFERER")
+
+    auth_jwt_secret: str = Field(default="change-me", alias="AUTH_JWT_SECRET")
+    auth_jwt_algorithm: str = Field(default="HS256", alias="AUTH_JWT_ALGORITHM")
+    auth_access_token_exp_minutes: int = Field(default=1440, alias="AUTH_ACCESS_TOKEN_EXP_MINUTES")
+
+    rate_limit_daily_max: int = Field(default=10, alias="RATE_LIMIT_DAILY_MAX")
 
     model_config = SettingsConfigDict(
         env_file=".env",

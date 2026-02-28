@@ -7,6 +7,8 @@ It currently includes:
 - A FastAPI backend that generates coding questions using LangChain with `openai/gpt-4o-mini`
 - Step-based learning for `C++` and `Python`
 - Dynamic difficulty: if the previous answer is correct, the next question gets harder
+- JWT authentication (register/login) for protected APIs
+- Daily rate limiting per user + IP (default 10 requests/day per endpoint)
 
 ## Project Structure
 

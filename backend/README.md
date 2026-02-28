@@ -20,6 +20,8 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ## API
 
 - `GET /health`
+- `POST /api/v1/auth/register`
+- `POST /api/v1/auth/login`
 - `GET /api/v1/`
 - `POST /api/v1/chat`
 - `GET /api/v1/questions/debug/supabase`
@@ -30,11 +32,13 @@ Request body:
 ```json
 {
   "language": "cpp",
-  "step_number": 1
+  "step_number": 1,
+  "previous_answer_correct": false
 }
 ```
 
 Behavior:
-- Generates a beginner question with LangChain + OpenRouter.
-- Uses 3-step progression (1 to 3).
-- Stores prompt, options, answer, boilerplate code, explanation, points, and user source IP in Supabase.
+- Auth is required for `/chat` and `/questions/generate` with Bearer token.
+- Daily rate limit is enforced per user and source IP (`RATE_LIMIT_DAILY_MAX`, default `10`).
+- Generates adaptive questions with step progression and previous-answer difficulty control.
+- Stores questions and API usage records in Supabase.
