@@ -29,6 +29,7 @@ def generate_question(
         )
         stored_payload = StoredQuestion(
             **generated.model_dump(),
+            user_id=current_user.id,
             language=payload.language,
             step_number=payload.step_number,
             source_ip=source_ip,

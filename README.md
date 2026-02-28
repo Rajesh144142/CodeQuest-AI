@@ -9,6 +9,7 @@ It currently includes:
 - Dynamic difficulty: if the previous answer is correct, the next question gets harder
 - JWT authentication (register/login) for protected APIs
 - Daily rate limiting per user + IP (default 10 requests/day per endpoint)
+- Super admin panel for platform stats, user roles, and login activity
 
 ## Project Structure
 

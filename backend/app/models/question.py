@@ -24,6 +24,7 @@ class GeneratedQuestion(BaseModel):
 
 class StoredQuestion(GeneratedQuestion):
     id: str | None = None
+    user_id: str | None = None
     language: Language
     step_number: conint(ge=1, le=3)
     source_ip: str

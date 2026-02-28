@@ -11,6 +11,7 @@ class QuestionRepository:
 
     def save_question(self, question: StoredQuestion) -> dict:
         payload = {
+            "user_id": question.user_id,
             "language": question.language,
             "step_number": question.step_number,
             "prompt": question.prompt,

@@ -1,6 +1,7 @@
 export type AuthUser = {
   id: string
   email: string
+  role: 'super_admin' | 'staff' | 'learner'
 }
 
 export type AuthResponse = {

@@ -22,6 +22,10 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 - `GET /health`
 - `POST /api/v1/auth/register`
 - `POST /api/v1/auth/login`
+- `GET /api/v1/admin/stats` (super admin only)
+- `GET /api/v1/admin/users` (super admin only)
+- `GET /api/v1/admin/activity` (super admin only)
+- `PATCH /api/v1/admin/users/{user_id}/role` (super admin only)
 - `GET /api/v1/`
 - `POST /api/v1/chat`
 - `GET /api/v1/questions/debug/supabase`
@@ -42,3 +46,5 @@ Behavior:
 - Daily rate limit is enforced per user and source IP (`RATE_LIMIT_DAILY_MAX`, default `10`).
 - Generates adaptive questions with step progression and previous-answer difficulty control.
 - Stores questions and API usage records in Supabase.
+- Set `AUTH_SUPER_ADMIN_EMAIL` and `AUTH_SUPER_ADMIN_PASSWORD` in `.env`.
+  On startup, backend auto-creates that account as `super_admin` if missing.

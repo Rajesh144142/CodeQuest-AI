@@ -28,6 +28,8 @@ class Settings(BaseSettings):
     auth_jwt_secret: str = Field(default="change-me", alias="AUTH_JWT_SECRET")
     auth_jwt_algorithm: str = Field(default="HS256", alias="AUTH_JWT_ALGORITHM")
     auth_access_token_exp_minutes: int = Field(default=1440, alias="AUTH_ACCESS_TOKEN_EXP_MINUTES")
+    auth_super_admin_email: str = Field(default="", alias="AUTH_SUPER_ADMIN_EMAIL")
+    auth_super_admin_password: str = Field(default="", alias="AUTH_SUPER_ADMIN_PASSWORD")
 
     rate_limit_daily_max: int = Field(default=10, alias="RATE_LIMIT_DAILY_MAX")
 

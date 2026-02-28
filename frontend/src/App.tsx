@@ -1,4 +1,5 @@
 import { lazy, Suspense, useState } from 'react'
+import { AdminPanel } from './components/AdminPanel'
 import { loginUser, registerUser } from './api/auth'
 import { useAuthStore } from './store/useAuthStore'
 import { useLearningStore } from './store/useCounterStore'
@@ -7,6 +8,7 @@ const CppTrack = lazy(() => import('./tracks/CppTrack'))
 const PythonTrack = lazy(() => import('./tracks/PythonTrack'))
 
 type AuthMode = 'login' | 'register'
+type AppTab = 'learn' | 'admin'
 
 function AppContent() {
   const token = useAuthStore((state) => state.token)
@@ -20,6 +22,7 @@ function AppContent() {
   const resetProgress = useLearningStore((state) => state.resetProgress)
 
   const [mode, setMode] = useState<AuthMode>('login')
+  const [tab, setTab] = useState<AppTab>('learn')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [authError, setAuthError] = useState<string | null>(null)
@@ -45,11 +48,31 @@ function AppContent() {
 
   if (!token || !user) {
     return (
-      <main className="min-h-screen bg-slate-950 text-slate-100">
-        <div className="mx-auto max-w-md p-6 pt-16 md:p-10">
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
-            <h1 className="text-3xl font-bold">CodeQuest</h1>
-            <p className="mt-2 text-sm text-slate-300">Login to start generating coding questions.</p>
+      <main className="flex min-h-screen items-center bg-[radial-gradient(circle_at_10%_10%,_#0f172a,_#020617_60%)] text-slate-100">
+        <div className="mx-auto grid w-full max-w-6xl gap-8 p-6 md:grid-cols-2 md:p-10">
+          <section className="rounded-3xl border border-slate-800 bg-slate-900/60 p-8 shadow-2xl shadow-black/30">
+            <div className="flex items-center gap-4">
+              <img src="/codequest.svg" alt="CodeQuest" className="h-14 w-14 rounded-xl" />
+              <div>
+                <h1 className="text-4xl font-bold tracking-tight">CodeQuest AI</h1>
+                <p className="text-sm text-slate-300">Adaptive coding learning platform</p>
+              </div>
+            </div>
+            <p className="mt-6 text-slate-300">
+              Learn C++ and Python step by step with generated coding problems, point-based progression, and
+              analytics.
+            </p>
+            <div className="mt-6 grid grid-cols-2 gap-3 text-sm">
+              <InfoCard title="Adaptive Difficulty" subtitle="Harder after correct answers" />
+              <InfoCard title="Daily Targets" subtitle="Track activity with limits" />
+              <InfoCard title="Role-Based Access" subtitle="Super admin dashboard" />
+              <InfoCard title="Live Generation" subtitle="Fresh questions every step" />
+            </div>
+          </section>
+
+          <section className="rounded-3xl border border-slate-800 bg-slate-900/70 p-6 shadow-2xl shadow-black/30">
+            <h2 className="text-2xl font-semibold">Welcome Back</h2>
+            <p className="mt-2 text-sm text-slate-300">Sign in to continue your learning journey.</p>
 
             <div className="mt-5 flex gap-2">
               <button
@@ -94,20 +117,20 @@ function AppContent() {
                 {authLoading ? 'Please wait...' : mode === 'login' ? 'Login' : 'Create Account'}
               </button>
             </div>
-          </div>
+          </section>
         </div>
       </main>
     )
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100">
+    <main className="min-h-screen bg-[radial-gradient(circle_at_top_left,_#0f172a,_#020617_60%)] text-slate-100">
       <div className="mx-auto max-w-5xl space-y-6 p-6 md:p-10">
-        <header className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+        <header className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-slate-700/70 bg-slate-900/70 p-5 shadow-2xl shadow-black/30">
           <div>
-            <h1 className="text-3xl font-bold">CodeQuest</h1>
+            <h1 className="text-3xl font-bold tracking-tight">CodeQuest</h1>
             <p className="mt-1 text-sm text-slate-300">
-              Learn step by step with boilerplate + quiz points.
+              Adaptive coding platform with role-based analytics.
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -130,32 +153,66 @@ function AppContent() {
           </div>
         </header>
 
-        <section className="flex gap-3">
+        <section className="flex flex-wrap gap-3">
           <button
-            onClick={() => setLanguage('cpp')}
+            onClick={() => setTab('learn')}
             className={`rounded-md px-4 py-2 text-sm font-medium transition ${
-              selectedLanguage === 'cpp'
-                ? 'bg-sky-600 text-white'
-                : 'bg-slate-800 text-slate-200 hover:bg-slate-700'
+              tab === 'learn' ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-200 hover:bg-slate-700'
             }`}
           >
-            C++ Track
+            Learning
           </button>
-          <button
-            onClick={() => setLanguage('python')}
-            className={`rounded-md px-4 py-2 text-sm font-medium transition ${
-              selectedLanguage === 'python'
-                ? 'bg-sky-600 text-white'
-                : 'bg-slate-800 text-slate-200 hover:bg-slate-700'
-            }`}
-          >
-            Python Track
-          </button>
+          {user.role === 'super_admin' && (
+            <button
+              onClick={() => setTab('admin')}
+              className={`rounded-md px-4 py-2 text-sm font-medium transition ${
+                tab === 'admin' ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-200 hover:bg-slate-700'
+              }`}
+            >
+              Admin Panel
+            </button>
+          )}
         </section>
 
-        <Suspense fallback={<div className="rounded-xl bg-slate-900 p-5 text-slate-300">Loading track...</div>}>
-          {selectedLanguage === 'cpp' ? <CppTrack /> : <PythonTrack />}
-        </Suspense>
+        {tab === 'learn' && (
+          <>
+            <section className="flex gap-3">
+              <button
+                onClick={() => setLanguage('cpp')}
+                className={`rounded-md px-4 py-2 text-sm font-medium transition ${
+                  selectedLanguage === 'cpp'
+                    ? 'bg-sky-600 text-white'
+                    : 'bg-slate-800 text-slate-200 hover:bg-slate-700'
+                }`}
+              >
+                C++ Track
+              </button>
+              <button
+                onClick={() => setLanguage('python')}
+                className={`rounded-md px-4 py-2 text-sm font-medium transition ${
+                  selectedLanguage === 'python'
+                    ? 'bg-sky-600 text-white'
+                    : 'bg-slate-800 text-slate-200 hover:bg-slate-700'
+                }`}
+              >
+                Python Track
+              </button>
+            </section>
+
+            <Suspense
+              fallback={<div className="rounded-xl bg-slate-900 p-5 text-slate-300">Loading track...</div>}
+            >
+              {selectedLanguage === 'cpp' ? <CppTrack /> : <PythonTrack />}
+            </Suspense>
+          </>
+        )}
+
+        {tab === 'admin' && user.role === 'super_admin' && <AdminPanel />}
+        {tab === 'admin' && user.role !== 'super_admin' && (
+          <div className="rounded-2xl border border-rose-500/40 bg-rose-500/10 p-6 text-rose-200">
+            You do not have access to admin features.
+          </div>
+        )}
       </div>
     </main>
   )
@@ -163,4 +220,13 @@ function AppContent() {
 
 export default function App() {
   return <AppContent />
+}
+
+function InfoCard({ title, subtitle }: { title: string; subtitle: string }) {
+  return (
+    <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-3">
+      <p className="font-medium text-slate-100">{title}</p>
+      <p className="mt-1 text-xs text-slate-400">{subtitle}</p>
+    </div>
+  )
 }

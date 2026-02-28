@@ -30,3 +30,12 @@ def get_current_user(
         return AuthService().get_user_from_token(credentials.credentials)
     except AuthError as exc:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(exc)) from exc
+
+
+def require_super_admin(current_user: AuthenticatedUser = Depends(get_current_user)) -> AuthenticatedUser:
+    if current_user.role != "super_admin":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Super admin role required.",
+        )
+    return current_user
