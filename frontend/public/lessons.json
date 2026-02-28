@@ -1,0 +1,96 @@
+{
+  "tracks": [
+    {
+      "language": "cpp",
+      "label": "C++ Fundamentals",
+      "intro": "Start with syntax, loops, and functions in C++.",
+      "steps": [
+        {
+          "id": "cpp-step-1",
+          "title": "Hello C++",
+          "explanation": "Every C++ program starts from main(). Use iostream and cout for output.",
+          "boilerplate": "#include <iostream>\nusing namespace std;\n\nint main() {\n  cout << \"Hello, World!\" << endl;\n  return 0;\n}",
+          "question": {
+            "id": "cpp-q-1",
+            "prompt": "Which function is the entry point of a C++ program?",
+            "options": ["start()", "main()", "run()", "init()"],
+            "answerIndex": 1,
+            "points": 10
+          }
+        },
+        {
+          "id": "cpp-step-2",
+          "title": "For Loop Basics",
+          "explanation": "Use a for loop when the number of iterations is known.",
+          "boilerplate": "#include <iostream>\nusing namespace std;\n\nint main() {\n  for (int i = 0; i < 5; i++) {\n    cout << i << \" \";\n  }\n  return 0;\n}",
+          "question": {
+            "id": "cpp-q-2",
+            "prompt": "How many times will this loop run: for (int i = 0; i < 5; i++) ?",
+            "options": ["4", "5", "6", "Infinite"],
+            "answerIndex": 1,
+            "points": 15
+          }
+        },
+        {
+          "id": "cpp-step-3",
+          "title": "Functions",
+          "explanation": "Functions keep your code reusable and readable.",
+          "boilerplate": "#include <iostream>\nusing namespace std;\n\nint add(int a, int b) {\n  return a + b;\n}\n\nint main() {\n  cout << add(2, 3) << endl;\n  return 0;\n}",
+          "question": {
+            "id": "cpp-q-3",
+            "prompt": "What is the return type of add in this example?",
+            "options": ["void", "int", "float", "string"],
+            "answerIndex": 1,
+            "points": 20
+          }
+        }
+      ]
+    },
+    {
+      "language": "python",
+      "label": "Python Fundamentals",
+      "intro": "Learn Python syntax, loops, and function basics.",
+      "steps": [
+        {
+          "id": "py-step-1",
+          "title": "Hello Python",
+          "explanation": "Python is simple to start. print() is used for output.",
+          "boilerplate": "def main():\n    print(\"Hello, World!\")\n\n\nif __name__ == \"__main__\":\n    main()",
+          "question": {
+            "id": "py-q-1",
+            "prompt": "Which function prints text in Python?",
+            "options": ["echo()", "cout()", "print()", "show()"],
+            "answerIndex": 2,
+            "points": 10
+          }
+        },
+        {
+          "id": "py-step-2",
+          "title": "Range Loop",
+          "explanation": "range(5) gives numbers from 0 to 4.",
+          "boilerplate": "for i in range(5):\n    print(i)",
+          "question": {
+            "id": "py-q-2",
+            "prompt": "What is the last number printed by range(5)?",
+            "options": ["3", "4", "5", "6"],
+            "answerIndex": 1,
+            "points": 15
+          }
+        },
+        {
+          "id": "py-step-3",
+          "title": "Functions",
+          "explanation": "Functions are defined with def and can return values.",
+          "boilerplate": "def add(a, b):\n    return a + b\n\nprint(add(2, 3))",
+          "question": {
+            "id": "py-q-3",
+            "prompt": "Which keyword sends a value back from a function?",
+            "options": ["yield", "return", "pass", "break"],
+            "answerIndex": 1,
+            "points": 20
+          }
+        }
+      ]
+    }
+  ]
+}
