@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.api.deps import get_request_ip
-from app.models.question import GenerateQuestionRequest
+from app.models.question import GenerateQuestionRequest, StoredQuestion
 from app.services.question_generator import QuestionGeneratorService
 from app.services.question_repository import QuestionRepository
 
@@ -19,8 +19,14 @@ def generate_question(
             step_number=payload.step_number,
             previous_answer_correct=payload.previous_answer_correct,
         )
-        # Supabase insert is intentionally disabled for now.
-        return {"question": generated.model_dump(), "stored": None, "source_ip": source_ip}
+        stored_payload = StoredQuestion(
+            **generated.model_dump(),
+            language=payload.language,
+            step_number=payload.step_number,
+            source_ip=source_ip,
+        )
+        stored_record = QuestionRepository().save_question(stored_payload)
+        return {"question": generated.model_dump(), "stored": stored_record, "source_ip": source_ip}
     except Exception as exc:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
